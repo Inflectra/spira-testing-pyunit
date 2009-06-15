@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="PyUnit Extension" default="rununittest" basedir="C:\Subversion\Projects\Inflectra\Trunk\Products and Services\Add Ons\PyUnit Extension">
+
+	<target name="rununittest" description="Runs the sample PyUnit Tests">
+		<echo message="Running the sample PyUnit test"/>
+		<exec program="python" verbose="true">
+			<arg value="testsequencefunctions.py" />
+		</exec>	
+	</target>
+	
+	<target name="runseleniumtest" description="Runs the sample Selenium-PyUnit Tests">
+		<echo message="Running the sample Selenium PyUnit test"/>
+		<exec program="python" verbose="true">
+			<arg value="seleniumtest.py" />
+		</exec>	
+	</target>
+	
+	<target name="zipup" description="Zips up the whole application for deployment">
+		<echo message="Zipping up entire application" />
+		<zip zipfile="PyUnitExtension.zip" verbose="true" comment="PyUnit Extension for SpiraTest">
+			<fileset>
+				<include name="*.py" />
+				<include name="*.txt" />
+			</fileset>
+		</zip>
+	</target>
+	
+</project>

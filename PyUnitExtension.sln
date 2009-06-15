@@ -1,0 +1,15 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C235C473-8873-40D5-90D8-17578590664E}"
+	ProjectSection(SolutionItems) = preProject
+		seleniumtest.py = seleniumtest.py
+		spiratestexecute.py = spiratestexecute.py
+		spiratestextension.py = spiratestextension.py
+		testsequencefunctions.py = testsequencefunctions.py
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
