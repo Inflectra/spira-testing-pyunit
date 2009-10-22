@@ -6,11 +6,11 @@ import time
 #	for a PyUnit test run and export them back to SpiraTest
 #
 #	Author		Inflectra Corporation
-#	Version		1.5.1
+#	Version		2.3.0
 
 class SpiraTestExtension:
 
-	def recordResults(self, testClass, testResult, releaseId, runnerName="PyUnit"):
+	def recordResults(self, testClass, testResult, releaseId=-1, runnerName="PyUnit", testSetId=-1):
 		print "Extracting test results for SpiraTest import..."
 
 		#we can't report back the testing time for these test cases so we'll just return back the current date/time
@@ -69,4 +69,4 @@ class SpiraTestExtension:
 			spiraTestExecute.userName = self.userName
 			spiraTestExecute.password = self.password
 			spiraTestExecute.projectId = self.projectId
-			spiraTestExecute.recordTestRun(-1, testCaseId, releaseId, startDate, endDate, executionStatus, runnerName, testMethodNameString, assertCount, message, stackTrace)
+			spiraTestExecute.recordTestRun(-1, testCaseId, releaseId, testSetId, startDate, endDate, executionStatus, runnerName, testMethodNameString, assertCount, message, stackTrace)

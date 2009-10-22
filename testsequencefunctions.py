@@ -28,7 +28,9 @@ class TestSequenceFunctions(unittest.TestCase):
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestSequenceFunctions)
 testResult = unittest.TextTestRunner(verbosity=2).run(suite)
-releaseId = -1
+releaseId = 1
+testSetId = 1
+runnerName = 'PyUnit'
 spiraTestExtension = spiratestextension.SpiraTestExtension()
 spiraTestExtension.projectId = 1
 spiraTestExtension.server = "localhost"
@@ -36,4 +38,4 @@ spiraTestExtension.port = 80
 spiraTestExtension.path = "SpiraTest"
 spiraTestExtension.userName = "fredbloggs"
 spiraTestExtension.password = "fredbloggs"
-spiraTestExtension.recordResults(TestSequenceFunctions, testResult, releaseId)
+spiraTestExtension.recordResults(TestSequenceFunctions, testResult, releaseId, runnerName, testSetId)

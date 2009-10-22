@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="PyUnit Extension" default="rununittest" basedir="C:\Subversion\Projects\Inflectra\Trunk\Products and Services\Add Ons\PyUnit Extension">
+<project name="PyUnit Extension" default="rununittest">
 
 	<target name="rununittest" description="Runs the sample PyUnit Tests">
 		<echo message="Running the sample PyUnit test"/>
