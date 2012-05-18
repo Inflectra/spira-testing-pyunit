@@ -38,4 +38,4 @@ spiraTestExtension.port = 80
 spiraTestExtension.path = "SpiraTest"
 spiraTestExtension.userName = "fredbloggs"
 spiraTestExtension.password = "fredbloggs"
-spiraTestExtension.recordResults(TestSequenceFunctions, testResult, releaseId, runnerName, testSetId)
+spiraTestExtension.recordResults(TestSequenceFunctions, testResult, releaseId, testSetId, runnerName)

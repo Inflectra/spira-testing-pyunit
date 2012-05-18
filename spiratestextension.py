@@ -10,7 +10,7 @@ import time
 
 class SpiraTestExtension:
 
-	def recordResults(self, testClass, testResult, releaseId=-1, runnerName="PyUnit", testSetId=-1):
+	def recordResults(self, testClass, testResult, releaseId=-1, testSetId=-1, runnerName="PyUnit"):
 		print "Extracting test results for SpiraTest import..."
 
 		#we can't report back the testing time for these test cases so we'll just return back the current date/time

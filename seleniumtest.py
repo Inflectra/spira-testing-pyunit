@@ -46,5 +46,5 @@ spiraTestExtension.port = 80
 spiraTestExtension.path = "SpiraTest"
 spiraTestExtension.userName = "fredbloggs"
 spiraTestExtension.password = "fredbloggs"
-spiraTestExtension.recordResults(TestSeleniumSample, testResult, -1, "Selenium")
+spiraTestExtension.recordResults(TestSeleniumSample, testResult, -1, -1, "Selenium")
 
