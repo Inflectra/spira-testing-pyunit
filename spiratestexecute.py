@@ -9,7 +9,9 @@ from xml.sax import saxutils
 #	(The current implementation doesn't support SSL connections)
 #
 #	Author		Inflectra Corporation
-#	Version		2.3.0
+#	Version		2.3.1
+#
+#	Modified by Davide La Croce to include HTTPS support
 
 class SpiraTestExecute:
 
@@ -57,6 +59,7 @@ class SpiraTestExecute:
 		
 		#actually call the SpiraTest API - we can simply ignore the return value
 		connection = httplib.HTTPConnection(self.server, self.port)
+		#connection = httplib.HTTPSConnection(self.server, self.port)
 		#connection.set_debuglevel(1)
 		connection.request("POST", "/" + self.path + self.WEB_SERVICE_URL_SUFFIX, body, headers)
 		response = connection.getresponse()
