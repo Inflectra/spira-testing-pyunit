@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="PyUnit Extension" default="rununittest">
+<project name="PyUnit Extension" default="zipup">
 
 	<target name="rununittest" description="Runs the sample PyUnit Tests">
 		<echo message="Running the sample PyUnit test"/>
@@ -17,8 +17,14 @@
 	
 	<target name="zipup" description="Zips up the whole application for deployment">
 		<echo message="Zipping up entire application" />
-		<zip zipfile="PyUnitExtension.zip" verbose="true" comment="PyUnit Extension for SpiraTest">
-			<fileset>
+		<zip zipfile="PyUnitExtension.zip" verbose="true" comment="Python 2.0 PyUnit Extension for SpiraTest">
+			<fileset basedir="Python 2.0">
+				<include name="*.py" />
+				<include name="*.txt" />
+			</fileset>
+		</zip>
+		<zip zipfile="PyUnitExtension3.zip" verbose="true" comment="Python 3.0 PyUnit Extension for SpiraTest">
+			<fileset basedir="Python 3.0">
 				<include name="*.py" />
 				<include name="*.txt" />
 			</fileset>
