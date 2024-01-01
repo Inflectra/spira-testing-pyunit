@@ -1,2 +1,2 @@
-include sample*.py
-include spira.cfg
+include testsequencefunctions.py
+include seleniumtest.py
