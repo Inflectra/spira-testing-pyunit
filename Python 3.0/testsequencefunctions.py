@@ -33,10 +33,7 @@ testSetId = 1
 runnerName = 'PyUnit'
 spiraTestExtension = spiratestextension.SpiraTestExtension()
 spiraTestExtension.projectId = 1
-spiraTestExtension.server = "doctor"
-spiraTestExtension.port = 80
-spiraTestExtension.ssl = False
-spiraTestExtension.path = "SpiraTeam"
-spiraTestExtension.userName = "fredbloggs"
-spiraTestExtension.password = "PleaseChange"
+spiraTestExtension.url = "http://localhost/Spira"
+spiraTestExtension.userName = "administrator"
+spiraTestExtension.apiKey = "{B9050F75-C5E6-4244-8712-FBF20061A976}"
 spiraTestExtension.recordResults(TestSequenceFunctions, testResult, releaseId, testSetId, runnerName)

@@ -1,13 +1,14 @@
 import unittest
 import spiratestexecute
 import time
+import datetime
 
 #	This defines the 'SpiraTestExtension' class used to get the results
 #	for a PyUnit test run and export them back to SpiraTest
 #
 #	Author		Inflectra Corporation
-#	Version		5.0.0
-#       Notes           Requires Python 3.0 or later
+#	Version		6.0.0
+#   Notes           Requires Python 3.0 or later
 
 class SpiraTestExtension:
 
@@ -15,8 +16,8 @@ class SpiraTestExtension:
 		print("Extracting test results for SpiraTest import...")
 
 		#we can't report back the testing time for these test cases so we'll just return back the current date/time
-		startDate = time.localtime()
-		endDate = time.localtime()
+		startDate = datetime.datetime.now(datetime.UTC)
+		endDate = datetime.datetime.now(datetime.UTC)
 		
 		#get the list of tests (passed, failed and errors from the test loader object)
 		testMethodNames = unittest.TestLoader().getTestCaseNames(testClass)
@@ -64,11 +65,8 @@ class SpiraTestExtension:
 			#report back what we have found
 			print(testMethodNameString + " has execution status: " + str(executionStatus))
 			spiraTestExecute = spiratestexecute.SpiraTestExecute()
-			spiraTestExecute.server = self.server
-			spiraTestExecute.port = self.port
-			spiraTestExecute.ssl = self.ssl
-			spiraTestExecute.path = self.path
-			spiraTestExecute.userName = self.userName
-			spiraTestExecute.password = self.password
-			spiraTestExecute.projectId = self.projectId
-			spiraTestExecute.recordTestRun(-1, testCaseId, releaseId, testSetId, startDate, endDate, executionStatus, runnerName, testMethodNameString, assertCount, message, stackTrace)
+			spiraTestExecute.url = self.url
+			spiraTestExecute.username = self.userName
+			spiraTestExecute.api_key = self.apiKey
+			spiraTestExecute.project_id = self.projectId
+			spiraTestExecute.recordTestRun(testCaseId, releaseId, testSetId, startDate, endDate, executionStatus, runnerName, testMethodNameString, assertCount, message, stackTrace)

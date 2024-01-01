@@ -41,10 +41,8 @@ suite = unittest.TestLoader().loadTestsFromTestCase(TestSeleniumSample)
 testResult = unittest.TextTestRunner(verbosity=2).run(suite)
 spiraTestExtension = spiratestextension.SpiraTestExtension()
 spiraTestExtension.projectId = 1
-spiraTestExtension.server = "localhost"
-spiraTestExtension.port = 80
-spiraTestExtension.path = "SpiraTest"
-spiraTestExtension.userName = "fredbloggs"
-spiraTestExtension.password = "fredbloggs"
+spiraTestExtension.url = "http://localhost/Spira"
+spiraTestExtension.userName = "administrator"
+spiraTestExtension.apiKey = "{B9050F75-C5E6-4244-8712-FBF20061A976}"
 spiraTestExtension.recordResults(TestSeleniumSample, testResult, -1, -1, "Selenium")
 

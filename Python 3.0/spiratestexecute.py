@@ -1,72 +1,69 @@
-import urllib
-import urllib.request
-import http.client
+import requests
+import json
+import datetime
 import time
-from xml.sax import saxutils
 
 #       This defines the 'SpiraTestExecute' class that provides the Python facade
-#       for calling the SOAP web service exposed by SpiraTest
-#       (The current implementation doesn't support SSL connections)
+#       for calling the REST web service exposed by SpiraTest
 #
 #       Author          Inflectra Corporation
-#       Version         5.0.0
+#       Version         6.0.0
 #       Notes           Requires Python 3.0 or later
 
 class SpiraTestExecute:
 
-        #define the web-service namespace and URL suffix constants
-        WEB_SERVICE_NAMESPACE = "http://www.inflectra.com/SpiraTest/Services/v2.2/"
-        WEB_SERVICE_URL_SUFFIX = "/Services/v2_2/ImportExport.asmx"
+        # The URL snippet used after the Spira URL
+        REST_SERVICE_URL = "/Services/v6_0/RestService.svc/"
+        # The URL spippet used to post an automated test run. Needs the project ID to work
+        POST_TEST_RUN = "projects/%s/test-runs/record"
 
-        def recordTestRun(self, testerUserId, testCaseId, releaseId, testSetId, startDate, endDate, executionStatusId, runnerName, runnerTestName, runnerAssertCount, runnerMessage, runnerStackTrace):
+        def recordTestRun(self, test_case_id, release_id, test_set_id, start_date, end_date, execution_status_id, runner_name, test_name, assert_count, message, stack_trace):
                 
-                #create the SOAP packet body passing through the appropriate parameters
-                methodName = 'TestRun_RecordAutomated2'
-                optionalParameters = ''
-                if releaseId != -1:
-                        optionalParameters += '<releaseId>' + str(releaseId) + '</releaseId>\r\n'
-                if testSetId != -1:
-                        optionalParameters += '<testSetId>' + str(testSetId) + '</testSetId>\r\n'
-                body= \
-                        '<?xml version="1.0" encoding="utf-8"?>\r\n' + \
-                        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n' + \
-                                '<soap:Body>\r\n' + \
-                                        '<' + methodName + ' xmlns="' + self.WEB_SERVICE_NAMESPACE + '">\r\n' + \
-                                                '<userName>' + saxutils.escape(self.userName) + '</userName>\r\n' + \
-                                                '<password>' + saxutils.escape(self.password) + '</password>\r\n' + \
-                                                '<projectId>' + str(self.projectId) + '</projectId>\r\n' + \
-                                                '<testerUserId>' + str(testerUserId) + '</testerUserId>\r\n' + \
-                                                '<testCaseId>' + str(testCaseId) + '</testCaseId>\r\n' + \
-                                                optionalParameters + \
-                                                '<startDate>' + time.strftime('%Y-%m-%dT%H:%M:%S',startDate) + '</startDate>\r\n' + \
-                                                '<endDate>' + time.strftime('%Y-%m-%dT%H:%M:%S',endDate) + '</endDate>\r\n' + \
-                                                '<executionStatusId>' + str(executionStatusId) + '</executionStatusId>\r\n' + \
-                                                '<runnerName>' + runnerName + '</runnerName>\r\n' + \
-                                                '<runnerTestName>' + runnerTestName + '</runnerTestName>\r\n' + \
-                                                '<runnerAssertCount>' + str(runnerAssertCount) + '</runnerAssertCount>\r\n' + \
-                                                '<runnerMessage>' + saxutils.escape(runnerMessage) + '</runnerMessage>\r\n' + \
-                                                '<runnerStackTrace>' + saxutils.escape(runnerStackTrace) + '</runnerStackTrace>\r\n' + \
-                                        '</' + methodName + '>\r\n' + \
-                                '</soap:Body>\r\n' + \
-                        '</soap:Envelope>\r\n'
+                """
+                Post the test run to Spira with the given credentials
+                """
+                url = self.url + self.REST_SERVICE_URL + \
+                (self.POST_TEST_RUN % self.project_id)
+                # The credentials we need
+                params = {
+                'username': self.username,
+                'api-key': self.api_key
+                }
 
-                #create the SOAP header using the sessionless version of the SpiraTest Record API
+                # The headers we are sending to the server
                 headers = {
-                        'Content-Type' : 'text/xml; charset=utf-8',
-                        'SOAPAction' : '"' + self.WEB_SERVICE_NAMESPACE + methodName + '"'
-                        }
-                
-                #actually call the SpiraTest API - we can simply ignore the return value
-                if self.ssl:
-                        connection = http.client.HTTPSConnection(self.server, self.port)
-                else:
-                        connection = http.client.HTTPConnection(self.server, self.port)
-                
-                #connection.set_debuglevel(1)
-                connection.request("POST", "/" + self.path + self.WEB_SERVICE_URL_SUFFIX, body, headers)
-                response = connection.getresponse()
-                output = response.read()
-                if response.status == 200:
-                        print("Successfully recorded the result for test case: " + str(testCaseId))
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'User-Agent': runner_name
+                }
+
+                # The body we are sending
+                body = {
+                # Constant for plain text
+                'TestRunFormatId': 1,
+                'StartDate': start_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'EndDate': end_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'RunnerName': runner_name,
+                'RunnerTestName': test_name,
+                'RunnerMessage': message,
+                'RunnerAssertCount': assert_count,
+                'RunnerStackTrace': stack_trace,
+                'TestCaseId': test_case_id,
+                # Passes (2) if the stack trace length is 0
+                'ExecutionStatusId': execution_status_id
+                }
+
+                # Releases and Test Sets are optional
+                if(release_id != -1):
+                        body["ReleaseId"] = int(release_id)
+                if(test_set_id != -1):
+                        body["TestSetId"] = int(test_set_id)
+
+                dumps = json.dumps(body)
+
+                response = requests.post(url, data=json.dumps(body), params=params, headers=headers)
+
+                if response.status_code == 200:
+                        print("Successfully recorded the result for test case: " + str(test_case_id))
                 else:
                         print ("Failed to send results to SpiraTest: ", response.status, response.reason, output)
