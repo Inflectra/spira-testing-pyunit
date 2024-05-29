@@ -66,4 +66,4 @@ class SpiraTestExecute:
                 if response.status_code == 200:
                         print("Successfully recorded the result for test case: " + str(test_case_id))
                 else:
-                        print ("Failed to send results to SpiraTest: ", response.status, response.reason, output)
+                        print ("Failed to send results to SpiraTest: ", response.status_code, response.reason, output)
